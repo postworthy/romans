@@ -1,0 +1,66 @@
+:root {
+  color-scheme: light;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #142b3c;
+  background: #f7f3eb;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+main {
+  min-height: 100svh;
+  max-width: 1120px;
+  margin: auto;
+  padding: 80px 48px;
+  display: grid;
+  grid-template-columns: minmax(200px, 330px) minmax(0, 1fr);
+  gap: 80px;
+  align-items: center;
+}
+.cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 10px 20px 48px #142b3c28;
+}
+.eyebrow, .button, .signature, .notice {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: .75rem;
+  font-weight: 650;
+  color: #775036;
+  margin: 0 0 22px;
+}
+h1 { font-size: clamp(3.5rem, 8vw, 6rem); line-height: 1; font-weight: 400; margin: 0 0 18px; }
+.subtitle { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.4; margin: 0; max-width: 430px; }
+.notice { border-top: 1px solid #cdbba6; margin-top: 34px; padding-top: 26px; }
+h2 { font-size: 1rem; line-height: 1.5; margin: 0 0 10px; font-weight: 650; }
+.notice p { font-size: 1rem; line-height: 1.7; color: #46515a; margin: 0; }
+.purchase { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 15px 19px;
+  border: 1px solid #142b3c;
+  border-radius: 3px;
+  font-size: .9rem;
+  line-height: 1.4;
+  text-decoration: none;
+  font-weight: 600;
+}
+.primary { background: #142b3c; color: #fff; }
+.secondary { color: #142b3c; }
+.primary:hover { background: #28465b; }
+.secondary:hover { background: #ece4d7; }
+a:focus-visible { outline: 3px solid #99613c; outline-offset: 5px; }
+.signature { font-size: .75rem; color: #626566; margin: 36px 0 0; letter-spacing: .06em; }
+@media (max-width: 720px) {
+  main { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; max-width: 520px; }
+  .cover { width: 190px; margin: auto; }
+  .purchase { flex-direction: column; }
+}
