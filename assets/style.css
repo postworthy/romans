@@ -8,3 +8,5 @@
 
 .social-follow{display:flex;align-items:center;justify-content:space-between;gap:24px 48px;padding-block:42px;border-top:1px solid #ffffff25}.social-follow h2{font-size:1.8rem}.social-follow p{font-size:.85rem;color:#c7c0b6;max-width:480px;margin-top:12px}.social-follow .text-link{flex-shrink:0;color:var(--paper)}.site-footer a:focus-visible{outline-color:var(--gold)}
 @media(max-width:700px){.social-follow{flex-direction:column;align-items:flex-start;gap:16px;padding-block:34px}}
+
+.social-links{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
