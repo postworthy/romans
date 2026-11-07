@@ -1,0 +1,15 @@
+/* One bounded analytics adapter. Preview stores inspectable events only. */
+(()=>{'use strict';let context={};try{context=JSON.parse(document.querySelector('#page-context')?.textContent||'{}')}catch{}
+ const publicHost=location.protocol==='https:'&&['romansbook.com','www.romansbook.com'].includes(location.hostname);
+ const key='romans-gallery-debug-events',allowed=new Set(['series_id','content_id','batch_id','content_type','page_type','placement','page_number','target_page','milestone','slide_index','slide_count','distinct_slides','video_duration','video_percent','watched_seconds','watched_fraction','method','format','error_code','manual','page','source_id']);
+ const read=()=>{try{return JSON.parse(sessionStorage.getItem(key)||'[]')}catch{return []}};window.__romansEvents=[];
+ function emit(name,extra={}){try{if(!/^[a-z][a-z0-9_]{0,39}$/.test(name))return;let params={page:location.pathname};for(const [k,v] of Object.entries({...context,...extra})){if(!allowed.has(k)||v==null)continue;if(typeof v==='number'&&Number.isFinite(v)||typeof v==='boolean')params[k]=v;else if(typeof v==='string')params[k]=v.slice(0,160)}const row={event:name,params,time:new Date().toISOString()};window.__romansEvents.push(row);if(context.mode==='production'&&publicHost&&typeof window.gtag==='function'){window.gtag('event',name,params)}else{const rows=[...read(),row].slice(-250);try{sessionStorage.setItem(key,JSON.stringify(rows))}catch{}}window.dispatchEvent(new CustomEvent('romans:analytics',{detail:row}));render()}catch{/* Analytics failures never block media or navigation. */}}
+ function render(){const el=document.querySelector('#event-log');if(el)el.textContent=JSON.stringify(read(),null,2)}
+ window.RomansAnalytics={emit,context,read,clear:()=>{try{sessionStorage.removeItem(key)}catch{}window.__romansEvents=[];render()}};
+ window.addEventListener('romans:interaction',e=>{const {event,...params}=e.detail||{};emit(event,params)});
+ document.addEventListener('click',e=>{const link=e.target instanceof Element?e.target.closest('a[data-event]'):null;if(!link)return;const params={};for(let [k,v]of Object.entries(link.dataset)){if(k==='event')continue;k=k.replace(/[A-Z]/g,m=>'_'+m.toLowerCase());params[k]=['page_number','target_page'].includes(k)?Number(v):v}emit(link.dataset.event,params)});
+ if(context.mode==='production'&&publicHost){
+  window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};window.gtag('js',new Date());const params={page_type:context.page_type};for(const k of ['series_id','content_id','batch_id','content_type'])if(context[k])params[k]=context[k];window.gtag('config','G-CWWHBZZTXD',params);const tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id=G-CWWHBZZTXD';document.head.append(tag);
+ }else emit('page_view');
+ window.addEventListener('pageshow',e=>{if(e.persisted)emit('page_view')});document.querySelector('#clear-events')?.addEventListener('click',()=>window.RomansAnalytics.clear());render();
+})();

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://romansbook.com/sitemap.xml
+Sitemap: https://romansbook.com/video-sitemap.xml
